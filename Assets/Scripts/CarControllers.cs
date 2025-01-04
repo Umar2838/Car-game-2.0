@@ -34,6 +34,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         ApplyBreaks();
         Drift(); // Add drift logic
         UpdateWheel();
+        // PowerSteering();
     }
 
     void GetInput()
@@ -49,17 +50,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
             // Apply handbrake
             rearRightWheel.brakeTorque = breakForce;
             rearLeftWheel.brakeTorque = breakForce;
-
-            // Reduce rear wheel grip for sliding
+            GetComponent<Rigidbody>().linearDamping = 1f;
             SetRearFriction(driftStiffness);
         }
         else
         {
             rearRightWheel.brakeTorque = 0f;
             rearLeftWheel.brakeTorque = 0f;
-
-            // Restore normal grip
             SetRearFriction(1f); // Reset stiffness to normal
+            GetComponent<Rigidbody>().linearDamping = 0f;
+
         }
     }
 
@@ -74,6 +74,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
         frontRightWheel.steerAngle = steerAngle * horizontalInput;
         frontLeftWheel.steerAngle = steerAngle * horizontalInput;
     }
+    // void PowerSteering(){
+    //     if(horizontalInput == 0){
+    //         transform.rotation = Quaternion.Slerp(transform.rotation,Quaternion.Euler(0,0,0),Time.deltaTime);
+    //     }
+    // }
 
     void UpdateWheel()
     {
