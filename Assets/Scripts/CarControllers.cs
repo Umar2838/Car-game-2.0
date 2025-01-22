@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class CarControllers : MonoBehaviour
 {
     public WheelCollider frontRightWheel;
     public WheelCollider frontLeftWheel;
@@ -16,13 +16,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public float steerAngle = 40f;
     public float breakForce = 1000f;
     public float driftStiffness = 0.5f; // Stiffness for drifting
-
+    public Rigidbody rigidbody;
     float verticalInput;
     float horizontalInput;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -34,7 +35,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         ApplyBreaks();
         Drift(); // Add drift logic
         UpdateWheel();
-        // PowerSteering();
+        Debug.Log(CarSpeed());
     }
 
     void GetInput()
@@ -120,5 +121,10 @@ public class NewMonoBehaviourScript : MonoBehaviour
         rearFriction = rearLeftWheel.sidewaysFriction;
         rearFriction.stiffness = stiffness;
         rearLeftWheel.sidewaysFriction = rearFriction;
+    }
+
+    public float CarSpeed(){
+       float speed = rigidbody.linearVelocity.magnitude * 2.23693629f;
+        return speed ;
     }
 }
